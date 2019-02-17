@@ -1,12 +1,132 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Poker On Mars {% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/logos/pom-light.jpg') }}"/>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"/>
+        <script src="{{ asset('bootstrap/jquery-3.3.1.slim.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/popper.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+    {% endblock %}
+    <div class="card bg-dark text-white">
+        <img src="{{ asset('images/logos/banniere.jpg') }}"
+             class="img-fluid card-img" alt="Responsive image">
+    </div>
+</head>
+<body>
+{% block body %}
+    <header>
+        {% block  header %}
+
+
+            <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#"><h3>Navigation</h3></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ path('Home') }}"> Accueil </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                               role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Le club
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item " href="{{ path('DescriptionClub') }}">
+                                    Description
+                                </a>
+                                <a class="dropdown-item " href="{{ path('ClubMembers') }}">Les membres
+                                </a>
+                                <a class="dropdown-item " href="{{ path('ClubResults') }}">Résultats
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.open(this.href); return false;"
+                               href="http://pom.soforums.com/index.php">Forum</a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('Administration') }}"> Admin</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="nav-item">
+                                <h3 style="color:white;">{{ app.user.username }}</h3>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('register') }}">Créer un compte</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}"> S'identifier</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+            <br>
+        {% endblock %}
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col col-lg-9 col-xl-9 col-md-10 offset-md-1 col-xs-12 col-12">
+                    {% block main %}{% endblock %}
+                </div>
+                <div class="d-none d-lg-block col col-lg-2 col-xl-2">
+                    {% block divers %}{% endblock %}
+                    futur block pub
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        {% block footer %}
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col col-xl-4 offset-xl-1 col-lg-4 offset-lg-1 col-md-5 offset-md-1 col-sm-6 col-xs-12 col-12 ">
+                        <a
+                                href="https://www.facebook.com/groups/42306371918/"
+                                onclick="window.open(this.href); return false;"><img
+                                    src="{{ asset('images/logos/logofacebook.jpg') }}" alt="logo facebook"
+                                    height="200px;"
+                                    width="200px;">
+
+                        </a>
+                    </div>
+                    <div class="col col-xl-4 col-lg-4 offset-lg-2 col-md-5 col-sm-6 col-xs-12 col-12 ">
+                        <a
+                                href="mailto:contactpokeronmars@yahoo.com"
+                        ><img
+                                    src="{{ asset('images/logos/contact-us-logo.jpg') }}" alt="logo contact"
+                                    height="200px;"
+                                    width="200px;">
+
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <div class="row justify-content-center">&copy; Association Poker On Mars</div>
+            </div>
+        {% endblock %}
+    </footer>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}
+</body>
 </html>
